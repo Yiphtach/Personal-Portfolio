@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <title>Personal Portfolio</title>
+</head>
+<body>
+  <main id="portfolio">
+    <!-- Filters and Sort Buttons Section -->
+    <section id="controls">
+      <button class="filter-button" data-filter="JavaScript">JavaScript</button>
+      <button class="filter-button" data-filter="Python">Python</button>
+      <button class="sort-button" data-sort="createdAt" data-order="asc">Sort by Date (Asc)</button>
+      <button class="sort-button" data-sort="createdAt" data-order="desc">Sort by Date (Desc)</button>
+    </section>
+
+    <!-- Project Cards Section -->
+    <section id="projects">
+      <!-- Project Cards will be dynamically added here -->
+    </section>
+
+    <!-- Dashboard Section with Chart -->
+    <section id="dashboard">
+      <canvas id="myChart" width="400" height="200"></canvas>
+    </section>    
+  </main>
+  
+  <!-- JavaScript files -->
+  <script src="app.js"></script>
+  <script src="chart-setup.js"></script>
+</body>
+</html>
