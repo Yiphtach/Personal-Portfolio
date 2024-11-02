@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header (loaded dynamically) -->
+    
+    <main id="project-details">
+        <section class="project-info">
+            <button onclick="window.history.back()" class="back-button">Back to Projects</button>
+            <h1 id="project-title">Project Title</h1>
+            <p id="project-description">Project description will be displayed here.</p>
+            
+            <div class="project-meta">
+                <p><strong>Technologies Used:</strong> <span id="project-technologies">Technologies list here</span></p>
+                <p><strong>Timeline:</strong> <span id="project-timeline">Project timeline here</span></p>
+                <p><strong>Complexity:</strong> <span id="project-complexity">Complexity level here</span></p>
+                <p><strong>Days Since Creation:</strong> <span id="project-days">Calculated days here</span></p>
+            </div>
+        </section>
+    </main>
+    
+    <!-- JavaScript file for loading project details -->
+    <script src="project.js"></script>
+</body>
+</html>

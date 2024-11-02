@@ -1,0 +1,40 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Cache and build files
+.cache/
+dist/
+build/
+
+# IDE and editor folders and files
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Coverage files
+coverage/
+
+# Temporary files
+*.tmp
+*.swp
+
+# Ignore specific files in frontend
+frontend/assets/.DS_Store
+frontend/assets/*.tmp
+
+# Ignore any additional sensitive files
+backend/secrets/

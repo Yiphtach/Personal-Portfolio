@@ -1,4 +1,4 @@
-const Project = require('./Project');
+const Project = require('../models/Project'); // Adjusted path to the Project model
 
 // Create a new project
 const createProject = async (req, res) => {

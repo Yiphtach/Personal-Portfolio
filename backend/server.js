@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path'); // Import path module
-const projectRoutes = require('./projectRoutes');
+const projectRoutes = require('./routes/projectRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -27,14 +27,14 @@ mongoose.connect(MONGODB_URI)
   });
 
 // Serve static files
-app.use(express.static(path.join(__dirname, '.')));
+app.use(express.static(path.join(__dirname, 'frontend')));
 
 // API Routes
 app.use('/projects', projectRoutes);
 
 // Fallback route to serve index.html for any unmatched route (SPA behavior)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, '/frontend/index.html'));
 });
 
 // Start the server
