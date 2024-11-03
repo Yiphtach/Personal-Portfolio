@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const projectController = require('../controllers/projectController');
 
+// Metrics routes (for dashboard metrics)
+router.get('/metrics/tech-count', projectController.getProjectCountByTech);
+router.get('/metrics/complexity-count', projectController.getProjectCountByComplexity);
+router.get('/metrics/timeline', projectController.getProjectTimeline);
+
 // Route to create a new project
 router.post('/', projectController.createProject);
 
@@ -16,15 +21,6 @@ router.put('/:id', projectController.updateProject);
 
 // Route to delete a specific project by ID
 router.delete('/:id', projectController.deleteProject);
-
-// Route to get project count by technology (for dashboard metrics)
-router.get('/metrics/tech-count', projectController.getProjectCountByTech);
-
-// Route to get project count by complexity (for dashboard metrics)
-router.get('/metrics/complexity-count', projectController.getProjectCountByComplexity);
-
-// Route to get project timeline data (for dashboard metrics)
-router.get('/metrics/timeline', projectController.getProjectTimeline);
 
 // Route to handle contact form submissions (optional)
 router.post('/contact', projectController.contactForm);

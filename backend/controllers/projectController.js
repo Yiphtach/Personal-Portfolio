@@ -1,51 +1,5 @@
 const Project = require('../models/Project');
 
-const getProjectById = (req, res) => {
-  res.send('Get Project by ID');
-};
-
-const getProjectCountByTech = (req, res) => {
-  res.send('Get Project Count by Technology');
-};
-
-const getProjectCountByComplexity = (req, res) => {
-  res.send('Get Project Count by Complexity');
-};
-
-const getProjectTimeline = (req, res) => {
-  res.send('Get Project Timeline');
-};
-
-const contactForm = (req, res) => {
-  res.send('Contact Form Submission');
-};
-
-// Get all projects with optional filtering and sorting
-async function getProjects(req, res) {
-  const { tech, sort } = req.query;
-  
-  // Create filter object for technology
-  let filter = {};
-  if (tech && tech !== 'all') {
-    filter.technologies = tech;
-  }
-
-  // Define sorting options
-  let sortOption = {};
-  if (sort === 'date') {
-    sortOption = { createdAt: -1 };
-  } else if (sort === 'complexity') {
-    sortOption = { complexity: 1 }; // Adjust based on preference
-  }
-
-  try {
-    const projects = await Project.find(filter).sort(sortOption);
-    res.json(projects);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch projects' });
-  }
-}
-
 // Create a new project
 async function createProject(req, res) {
   try {
@@ -57,26 +11,41 @@ async function createProject(req, res) {
   }
 }
 
-// Get project metrics for the dashboard
-async function getMetrics(req, res) {
+// Get all projects with optional filtering and sorting
+async function getProjects(req, res) {
+  const { tech, sort } = req.query;
+  
+  let filter = {};
+  if (tech && tech !== 'all') {
+    filter.technologies = tech;
+  }
+
+  let sortOption = {};
+  if (sort === 'date') {
+    sortOption = { createdAt: -1 };
+  } else if (sort === 'complexity') {
+    sortOption = { complexity: 1 };
+  }
+
   try {
-    // Total project count
-    const totalProjects = await Project.countDocuments();
-
-    // Complexity breakdown
-    const complexityData = await Project.aggregate([
-      { $group: { _id: "$complexity", count: { $sum: 1 } } }
-    ]);
-
-    // Technology breakdown
-    const techData = await Project.aggregate([
-      { $unwind: "$technologies" },
-      { $group: { _id: "$technologies", count: { $sum: 1 } } }
-    ]);
-
-    res.json({ totalProjects, complexityData, techData });
+    const projects = await Project.find(filter).sort(sortOption);
+    res.json(projects);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch metrics' });
+    res.status(500).json({ error: 'Failed to fetch projects' });
+  }
+}
+
+// Get a specific project by ID
+async function getProjectById(req, res) {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (project) {
+      res.json(project);
+    } else {
+      res.status(404).json({ error: 'Project not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch project' });
   }
 }
 
@@ -108,19 +77,55 @@ async function deleteProject(req, res) {
   }
 }
 
-exports.getProjectById = async (req, res) => {
+// Get project count by technology (for dashboard)
+async function getProjectCountByTech(req, res) {
   try {
-    const project = await Project.findById(req.params.id);
-    if (project) {
-      res.json(project);
-    } else {
-      res.status(404).json({ error: 'Project not found' });
-    }
+    const techData = await Project.aggregate([
+      { $unwind: "$technologies" },
+      { $group: { _id: "$technologies", count: { $sum: 1 } } }
+    ]);
+    res.json(techData);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch project' });
+    res.status(500).json({ error: 'Failed to fetch project count by technology' });
   }
-};
+}
 
+// Get project count by complexity (for dashboard)
+async function getProjectCountByComplexity(req, res) {
+  try {
+    const complexityData = await Project.aggregate([
+      { $group: { _id: "$complexity", count: { $sum: 1 } } }
+    ]);
+    res.json(complexityData);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch project count by complexity' });
+  }
+}
+
+// Get project timeline data (for dashboard)
+async function getProjectTimeline(req, res) {
+  try {
+    const timelineData = await Project.aggregate([
+      { $group: { _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } }, count: { $sum: 1 } } },
+      { $sort: { "_id": 1 } }
+    ]);
+    res.json(timelineData);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch project timeline' });
+  }
+}
+
+// Handle contact form submission
+async function contactForm(req, res) {
+  const { name, email, message } = req.body;
+  try {
+    // Process the contact form submission as needed
+    console.log("Contact Form Submitted:", { name, email, message });
+    res.json({ status: 'success', message: 'Message sent successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to process contact form' });
+  }
+}
 
 module.exports = {
   createProject,
@@ -133,4 +138,3 @@ module.exports = {
   getProjectTimeline,
   contactForm
 };
-

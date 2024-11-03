@@ -7,17 +7,29 @@
   <title>Personal Portfolio</title>
 </head>
 <body>
-  <header>
-    <!-- Include header component -->
-    <div id="header"></div>
-  </header>
+  <!-- Header Component -->
+<div id="header-container"></div>
+<script>
+  fetch('frontend/components/header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-container').innerHTML = data;
+    })
+    .catch(error => console.error('Error loading header:', error));
+</script>
+
+  <!-- Main Content -->
   <main>
     <section id="portfolio">
       <h1>Welcome to My Portfolio</h1>
-      <a href="views/projects.html">View Projects</a>
-      <a href="views/dashboard.html">Dashboard</a>
+      <div class="portfolio-links">
+        <a href="views/projects.html">View Projects</a>
+        <a href="views/dashboard.html">Dashboard</a>
+      </div>
     </section>
   </main>
+
+  <!-- JavaScript for Dynamic Loading and Filtering -->
   <script src="frontend/app.js"></script>
-  </body>
+</body>
 </html>

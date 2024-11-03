@@ -10,26 +10,33 @@
 <body>
   <!-- Header -->
   <div id="header-container"></div>
-  <script>
-    fetch('../frontend/components/header.html')
-      .then(response => response.text())
-      .then(data => document.getElementById('header-container').innerHTML = data);
-  </script>
+<script>
+  fetch('../frontend/components/header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-container').innerHTML = data;
+    })
+    .catch(error => console.error('Error loading header:', error));
+</script>
+
+
 
   <!-- Main Content -->
-  <main>
-    <header>
+  <main class="dashboard-container">
+    <header class="dashboard-header">
       <h1>Project Dashboard</h1>
     </header>
-    <div id="dashboard">
-      <!-- Canvas for project count by technology chart -->
-      <section>
+    
+    <!-- Dashboard Sections -->
+    <div class="dashboard-charts">
+      <!-- Chart for project count by technology -->
+      <section class="chart-section">
         <h2>Projects by Technology</h2>
         <canvas id="projectCountChart"></canvas>
       </section>
       
-      <!-- Canvas for complexity breakdown chart -->
-      <section>
+      <!-- Chart for complexity breakdown -->
+      <section class="chart-section">
         <h2>Project Complexity Breakdown</h2>
         <canvas id="complexityChart"></canvas>
       </section>

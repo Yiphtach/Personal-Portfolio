@@ -7,10 +7,24 @@
   <link rel="stylesheet" href="../frontend/style.css">
 </head>
 <body>
-  <header>
-    <h1 id="project-title">Project Title</h1>
-  </header>
-  <main>
+  <!-- Header -->
+  <div id="header-container"></div>
+<script>
+  fetch('../frontend/components/header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-container').innerHTML = data;
+    })
+    .catch(error => console.error('Error loading header:', error));
+</script>
+
+
+
+  <!-- Main Content -->
+  <main class="project-details-container">
+    <header class="project-header">
+      <h1 id="project-title">Project Title</h1>
+    </header>
     <section id="project-details">
       <p id="project-description">Project description will load here.</p>
       <p><strong>Technologies:</strong> <span id="project-technologies"></span></p>
@@ -19,6 +33,8 @@
       <p><strong>Date Created:</strong> <span id="project-date"></span></p>
     </section>
   </main>
+
+  <!-- JavaScript for Fetching Project Data -->
   <script src="../frontend/project.js"></script>
 </body>
 </html>

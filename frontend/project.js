@@ -4,8 +4,19 @@ const projectId = new URLSearchParams(window.location.search).get('id');
 // Fetch project details from the backend
 async function fetchProjectDetails() {
   try {
+    if (!projectId) {
+      throw new Error("No project ID found in the URL.");
+    }
+
     const response = await fetch(`/api/projects/${projectId}`);
+    if (!response.ok) throw new Error("Failed to fetch project details.");
+
     const project = await response.json();
+
+    // Check if project data exists
+    if (!project || !project.title) {
+      throw new Error("Project details are unavailable.");
+    }
 
     // Update HTML elements with project data
     document.getElementById('project-title').innerText = project.title;

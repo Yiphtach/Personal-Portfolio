@@ -10,18 +10,23 @@
   
   <!-- Header Component -->
   <div id="header-container"></div>
-  <script>
-    fetch('../frontend/components/header.html')
-      .then(response => response.text())
-      .then(data => document.getElementById('header-container').innerHTML = data);
-  </script>
+<script>
+  fetch('../frontend/components/header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-container').innerHTML = data;
+    })
+    .catch(error => console.error('Error loading header:', error));
+</script>
+
+
 
   <!-- Main Content -->
-  <main>
+  <main class="projects-main">
     <h1>My Projects</h1>
     
     <!-- Filter and Sorting Options -->
-    <div id="filter-options">
+    <div id="filter-options" class="filter-options">
       <label for="tech-filter">Filter by Technology:</label>
       <select id="tech-filter">
         <option value="all">All</option>
