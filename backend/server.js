@@ -1,49 +1,48 @@
+// Import necessary modules
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const path = require('path'); // Import path module
-const projectRoutes = require('./routes/projectRoutes');
 require('dotenv').config();
 
+// Import routes
+const projectRoutes = require('./routes/projectRoutes');
+
 const app = express();
-const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  console.error("Error: MONGODB_URI is not defined in the .env file.");
-  process.exit(1);
-}
+// Middleware setup
+app.use(express.json()); // Parses incoming JSON requests
+app.use(cors()); // Allows cross-origin requests
 
-// Middleware
-app.use(express.json());
-app.use(cors());
-
-// Connect to MongoDB
-mongoose.connect(MONGODB_URI)
+// MongoDB connection
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log(`Connected to MongoDB: ${mongoose.connection.name}`))
   .catch((err) => {
     console.error("MongoDB connection error:", err);
     process.exit(1);
   });
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'frontend')));
-
 // API Routes
-app.use('/projects', projectRoutes);
+app.use('/api/projects', projectRoutes);
 
-// Fallback route to serve index.html for any unmatched route (SPA behavior)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/frontend/index.html'));
+// Serve static files for the frontend
+app.use(express.static('frontend'));
+
+// Root route to serve the main HTML page (index.html)
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
+
+// Fallback route for 404 errors
+app.use((req, res, next) => {
+  res.status(404).json({ error: 'Not Found' });
+});
+
+// Global error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
 });
 
 // Start the server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-// Graceful shutdown
-process.on('SIGINT', async () => {
-  console.log("\nShutting down gracefully...");
-  await mongoose.connection.close();
-  console.log("Disconnected from MongoDB");
-  process.exit(0);
-});

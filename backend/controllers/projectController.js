@@ -1,63 +1,136 @@
-const Project = require('../models/Project'); // Adjusted path to the Project model
+const Project = require('../models/Project');
+
+const getProjectById = (req, res) => {
+  res.send('Get Project by ID');
+};
+
+const getProjectCountByTech = (req, res) => {
+  res.send('Get Project Count by Technology');
+};
+
+const getProjectCountByComplexity = (req, res) => {
+  res.send('Get Project Count by Complexity');
+};
+
+const getProjectTimeline = (req, res) => {
+  res.send('Get Project Timeline');
+};
+
+const contactForm = (req, res) => {
+  res.send('Contact Form Submission');
+};
+
+// Get all projects with optional filtering and sorting
+async function getProjects(req, res) {
+  const { tech, sort } = req.query;
+  
+  // Create filter object for technology
+  let filter = {};
+  if (tech && tech !== 'all') {
+    filter.technologies = tech;
+  }
+
+  // Define sorting options
+  let sortOption = {};
+  if (sort === 'date') {
+    sortOption = { createdAt: -1 };
+  } else if (sort === 'complexity') {
+    sortOption = { complexity: 1 }; // Adjust based on preference
+  }
+
+  try {
+    const projects = await Project.find(filter).sort(sortOption);
+    res.json(projects);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch projects' });
+  }
+}
 
 // Create a new project
-const createProject = async (req, res) => {
+async function createProject(req, res) {
   try {
     const project = new Project(req.body);
     await project.save();
     res.status(201).json(project);
   } catch (error) {
-    console.error("Error creating project:", error);
-    res.status(400).json({ message: "Failed to create project", error });
+    res.status(500).json({ error: 'Failed to create project' });
   }
-};
+}
 
-// Get all projects with optional filters and sorting
-const getProjects = async (req, res) => {
+// Get project metrics for the dashboard
+async function getMetrics(req, res) {
   try {
-    // Extract query parameters for filtering and sorting
-    const { technology, complexity, sortBy = 'createdAt', order = 'desc' } = req.query;
+    // Total project count
+    const totalProjects = await Project.countDocuments();
 
-    // Construct filter object for technology and complexity
-    const filter = {};
-    if (technology) filter.technologies = technology; // Filter by technology (e.g., JavaScript)
-    if (complexity) filter.complexity = complexity;    // Filter by complexity (e.g., High)
-
-    // Define sort options based on query parameters
-    const sortOrder = order === 'asc' ? 1 : -1;
-    const sortOptions = { [sortBy]: sortOrder };
-
-    // Fetch projects with applied filters and sorting
-    const projects = await Project.find(filter).sort(sortOptions);
-    res.json(projects);
-  } catch (error) {
-    console.error("Error fetching projects:", error);
-    res.status(500).json({ message: "Failed to fetch projects", error });
-  }
-};
-
-// Get project metrics by technology and complexity
-const getProjectMetrics = async (req, res) => {
-  try {
-    // Aggregate project count by technology
-    const techMetrics = await Project.aggregate([
-      { $unwind: "$technologies" }, // Flatten technologies array
-      { $group: { _id: "$technologies", count: { $sum: 1 } } },
-      { $sort: { count: -1 } }
+    // Complexity breakdown
+    const complexityData = await Project.aggregate([
+      { $group: { _id: "$complexity", count: { $sum: 1 } } }
     ]);
 
-    // Aggregate project count by complexity
-    const complexityMetrics = await Project.aggregate([
-      { $group: { _id: "$complexity", count: { $sum: 1 } } },
-      { $sort: { count: -1 } }
+    // Technology breakdown
+    const techData = await Project.aggregate([
+      { $unwind: "$technologies" },
+      { $group: { _id: "$technologies", count: { $sum: 1 } } }
     ]);
 
-    res.json({ techMetrics, complexityMetrics });
+    res.json({ totalProjects, complexityData, techData });
   } catch (error) {
-    console.error("Error fetching project metrics:", error);
-    res.status(500).json({ message: "Failed to fetch project metrics", error });
+    res.status(500).json({ error: 'Failed to fetch metrics' });
+  }
+}
+
+// Update an existing project by ID
+async function updateProject(req, res) {
+  const { id } = req.params;
+  try {
+    const updatedProject = await Project.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updatedProject) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    res.json(updatedProject);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update project' });
+  }
+}
+
+// Delete a project by ID
+async function deleteProject(req, res) {
+  const { id } = req.params;
+  try {
+    const deletedProject = await Project.findByIdAndDelete(id);
+    if (!deletedProject) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    res.json({ message: 'Project deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete project' });
+  }
+}
+
+exports.getProjectById = async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (project) {
+      res.json(project);
+    } else {
+      res.status(404).json({ error: 'Project not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch project' });
   }
 };
 
-// Export all controller functions
-module.exports = { createProject, getProjects, getProjectMetrics };
+
+module.exports = {
+  createProject,
+  getProjects,
+  getProjectById,
+  updateProject,
+  deleteProject,
+  getProjectCountByTech,
+  getProjectCountByComplexity,
+  getProjectTimeline,
+  contactForm
+};
+

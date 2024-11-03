@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../frontend/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Dashboard</title>
+</head>
+<body>
+  <!-- Header -->
+  <div id="header-container"></div>
+  <script>
+    fetch('../frontend/components/header.html')
+      .then(response => response.text())
+      .then(data => document.getElementById('header-container').innerHTML = data);
+  </script>
+
+  <!-- Main Content -->
+  <main>
+    <header>
+      <h1>Project Dashboard</h1>
+    </header>
+    <div id="dashboard">
+      <!-- Canvas for project count by technology chart -->
+      <section>
+        <h2>Projects by Technology</h2>
+        <canvas id="projectCountChart"></canvas>
+      </section>
+      
+      <!-- Canvas for complexity breakdown chart -->
+      <section>
+        <h2>Project Complexity Breakdown</h2>
+        <canvas id="complexityChart"></canvas>
+      </section>
+    </div>
+  </main>
+
+  <!-- Dashboard Script -->
+  <script src="../frontend/dashboard.js"></script>
+</body>
+</html>

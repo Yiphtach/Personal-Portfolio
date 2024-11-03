@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../frontend/style.css">
+  <title>Projects</title>
+</head>
+<body>
+  
+  <!-- Header Component -->
+  <div id="header-container"></div>
+  <script>
+    fetch('../frontend/components/header.html')
+      .then(response => response.text())
+      .then(data => document.getElementById('header-container').innerHTML = data);
+  </script>
+
+  <!-- Main Content -->
+  <main>
+    <h1>My Projects</h1>
+    
+    <!-- Filter and Sorting Options -->
+    <div id="filter-options">
+      <label for="tech-filter">Filter by Technology:</label>
+      <select id="tech-filter">
+        <option value="all">All</option>
+        <option value="JavaScript">JavaScript</option>
+        <option value="Python">Python</option>
+        <!-- Add other technologies as needed -->
+      </select>
+
+      <label for="sort-options">Sort by:</label>
+      <select id="sort-options">
+        <option value="date">Date</option>
+        <option value="complexity">Complexity</option>
+        <!-- Add more sorting options as needed -->
+      </select>
+    </div>
+
+    <!-- Project List -->
+    <div id="project-list" class="project-container">
+      <!-- Project cards will be dynamically added here by JavaScript -->
+    </div>
+  </main>
+
+  <!-- JavaScript for Dynamic Loading and Filtering -->
+  <script src="../frontend/app.js"></script>
+</body>
+</html>

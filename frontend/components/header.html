@@ -1,12 +1,129 @@
-<header>
-  <div class="header-container">
-      <h1>My Portfolio</h1>
-      <nav aria-label="Main Navigation">
-          <ul class="nav-links">
-              <li><a href="#projects">Projects</a></li>
-              <li><a href="#dashboard">Dashboard</a></li>
-              <li><a href="#contact">Contact</a></li>
-          </ul>
-      </nav>
-  </div>
-</header>
+<header class="main-header">
+    <nav class="navbar">
+      <a href="../index.html" class="nav-logo">
+        <img src="../frontend/assets/logo.png" alt="Logo" class="logo-image" />
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span class="hamburger"></span>
+      </button>
+    </nav>
+  </header>
+  
+  <style>
+    /* Header and Navbar Styling */
+    .main-header {
+      width: 100%;
+      background-color: #4CAF50;
+      color: #fff;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    }
+  
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  
+    .nav-logo {
+      text-decoration: none;
+    }
+  
+    .logo-image {
+      height: 40px;
+    }
+  
+    .nav-links {
+      list-style-type: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+    }
+  
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+  
+    /* Mobile Toggle Styling */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+  
+    .hamburger {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+      position: relative;
+    }
+  
+    .hamburger::before,
+    .hamburger::after {
+      content: "";
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+      position: absolute;
+      left: 0;
+      transition: transform 0.3s ease;
+    }
+  
+    .hamburger::before {
+      top: -8px;
+    }
+  
+    .hamburger::after {
+      top: 8px;
+    }
+  
+    /* Responsive Styling */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background-color: #4CAF50;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 100%;
+      }
+  
+      .nav-links.active {
+        display: flex;
+      }
+  
+      .nav-toggle {
+        display: block;
+      }
+    }
+  </style>
+  
+  <script>
+    // Toggle mobile menu
+    document.addEventListener('DOMContentLoaded', function () {
+      const toggleButton = document.querySelector('.nav-toggle');
+      const navLinks = document.querySelector('.nav-links');
+  
+      toggleButton.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+    });
+  </script>
+  

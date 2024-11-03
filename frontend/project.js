@@ -1,36 +1,24 @@
-// Fetch and display the project details
-async function fetchProjectDetails() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const projectId = urlParams.get('id');
-  
-    if (!projectId) {
-      document.getElementById('project-title').innerText = 'Project not found.';
-      return;
-    }
-  
-    try {
-      const response = await fetch(`http://localhost:3000/projects/${projectId}`);
-      if (!response.ok) throw new Error('Failed to load project details.');
-  
-      const project = await response.json();
+// Retrieve the project ID from the URL query parameter
+const projectId = new URLSearchParams(window.location.search).get('id');
 
-      // Populate project details in the DOM
-      document.getElementById('project-title').innerText = project.title || 'No title available';
-      document.getElementById('project-description').innerText = project.description || 'No description available';
-      document.getElementById('project-technologies').innerText = project.technologies && project.technologies.length > 0 
-        ? project.technologies.join(', ') 
-        : 'No technologies listed';
-      document.getElementById('project-timeline').innerText = project.timeline || 'No timeline available';
-      document.getElementById('project-complexity').innerText = project.complexity || 'No complexity level specified';
-      document.getElementById('project-days').innerText = project.daysSinceCreation 
-        ? `${project.daysSinceCreation} days ago` 
-        : 'Creation date not available';
-      
-    } catch (error) {
-      console.error("Error loading project details:", error);
-      document.getElementById('project-title').innerText = 'Error loading project details.';
-      document.getElementById('project-description').innerText = 'Please try again later.';
-    }
+// Fetch project details from the backend
+async function fetchProjectDetails() {
+  try {
+    const response = await fetch(`/api/projects/${projectId}`);
+    const project = await response.json();
+
+    // Update HTML elements with project data
+    document.getElementById('project-title').innerText = project.title;
+    document.getElementById('project-description').innerText = project.description;
+    document.getElementById('project-technologies').innerText = project.technologies.join(', ');
+    document.getElementById('project-timeline').innerText = project.timeline;
+    document.getElementById('project-complexity').innerText = project.complexity;
+    document.getElementById('project-date').innerText = new Date(project.createdAt).toLocaleDateString();
+  } catch (error) {
+    console.error('Error fetching project details:', error);
+    document.getElementById('project-details').innerHTML = '<p>Failed to load project details.</p>';
+  }
 }
-  
-document.addEventListener('DOMContentLoaded', fetchProjectDetails);
+
+// Load project details on page load
+fetchProjectDetails();
