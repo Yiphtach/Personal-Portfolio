@@ -13,7 +13,7 @@ async function createProject(req, res) {
 
 // Get all projects with optional filtering and sorting
 async function getProjects(req, res) {
-  const { tech, sort } = req.query;
+  const { tech, complexity, sort } = req.query;
   
   let filter = {};
   if (tech && tech !== 'all') {
@@ -22,9 +22,9 @@ async function getProjects(req, res) {
 
   let sortOption = {};
   if (sort === 'date') {
-    sortOption = { createdAt: -1 };
+    sortOption = { createdAt: -1 }; // Descending order by date
   } else if (sort === 'complexity') {
-    sortOption = { complexity: 1 };
+    sortOption = { complexity: 1 }; // Ascending order by complexity
   }
 
   try {

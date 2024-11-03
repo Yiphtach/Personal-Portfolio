@@ -6,8 +6,7 @@
   <link rel="stylesheet" href="../style.css">
   <title>Projects</title>
 </head>
-<body>
-  
+<body> 
   <!-- Header Component -->
   <div id="header-container"></div>
 <script>
@@ -23,7 +22,9 @@
 
   <!-- Main Content -->
   <main class="projects-main">
-    <h1>My Projects</h1>
+    <header class="project-header">
+      <h1>Projects</h1>
+    </header>
     
     <!-- Filter and Sorting Options -->
     <div id="filter-options" class="filter-options">
@@ -35,6 +36,14 @@
         <!-- Add other technologies as needed -->
       </select>
 
+      <label for="complexity-filter">Complexity:</label>
+      <select id="complexity-filter">
+        <option value="all">All</option>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+
       <label for="sort-options">Sort by:</label>
       <select id="sort-options">
         <option value="date">Date</option>
@@ -42,6 +51,12 @@
         <!-- Add more sorting options as needed -->
       </select>
     </div>
+
+    <!-- Project Cards Grid -->
+    <section id="projects-container" class="project-container">
+      <!-- Project cards will be dynamically loaded here -->
+    </section>
+  </main>
 
     <!-- Project List -->
     <div id="project-list" class="project-container">
