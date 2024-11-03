@@ -41,5 +41,6 @@ async function fetchProjects() {
 document.getElementById('tech-filter').addEventListener('change', fetchProjects);
 document.getElementById('sort-options').addEventListener('change', fetchProjects);
 
+
 // Initial fetch to display projects when the page loads
 document.addEventListener('DOMContentLoaded', fetchProjects);

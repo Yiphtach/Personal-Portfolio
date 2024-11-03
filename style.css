@@ -247,8 +247,8 @@ strong {
 }
 
 .logo {
-  width: 0;  /* Adjust size as needed */
-  height: 0;
+  width: 150px;  /* Adjust size as needed */
+  height: auto;
   margin: 0 auto;
   display: block;
 }
