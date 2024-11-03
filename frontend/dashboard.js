@@ -1,6 +1,6 @@
 // Function to fetch and render technology distribution chart
 async function fetchTechMetrics() {
-  const techChartElement = document.getElementById('techChart');
+  const techChartElement = document.getElementById('projectCountChart');
   if (!techChartElement) return; // Check if element exists
 
   try {
@@ -25,6 +25,7 @@ async function fetchTechMetrics() {
         }]
       },
       options: {
+        responsive: true,
         scales: {
           y: {
             beginAtZero: true,
@@ -39,6 +40,9 @@ async function fetchTechMetrics() {
               text: 'Technology'
             }
           }
+        },
+        plugins: {
+          legend: { display: true, position: 'top' }
         }
       }
     });
@@ -82,6 +86,7 @@ async function fetchComplexityMetrics() {
         }]
       },
       options: {
+        responsive: true,
         plugins: {
           legend: {
             position: 'top'
@@ -96,7 +101,7 @@ async function fetchComplexityMetrics() {
 
 // Function to fetch and render timeline chart (projects by month/year)
 async function fetchTimelineMetrics() {
-  const timelineChartElement = document.getElementById('timelineChart');
+  const timelineChartElement = document.getElementById('timeChart');
   if (!timelineChartElement) return; // Check if element exists
 
   try {
@@ -121,6 +126,7 @@ async function fetchTimelineMetrics() {
         }]
       },
       options: {
+        responsive: true,
         scales: {
           y: {
             beginAtZero: true,
@@ -135,6 +141,9 @@ async function fetchTimelineMetrics() {
               text: 'Timeline'
             }
           }
+        },
+        plugins: {
+          legend: { display: true, position: 'top' }
         }
       }
     });

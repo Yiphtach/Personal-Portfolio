@@ -115,11 +115,23 @@ async function getProjectTimeline(req, res) {
   }
 }
 
+// Get time spent on projects
+async function getTimeSpentOnProjects(req, res) {
+  try {
+    const timeData = await Project.aggregate([
+      { $group: { _id: "$title", totalTime: { $sum: "$timeline" } } }  // Assumes 'timeline' stores time spent
+    ]);
+    res.json(timeData);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching time spent metrics' });
+  }
+}
+
 // Handle contact form submission
 async function contactForm(req, res) {
   const { name, email, message } = req.body;
   try {
-    // Process the contact form submission as needed
+    // Log submission, or integrate with email or support services
     console.log("Contact Form Submitted:", { name, email, message });
     res.json({ status: 'success', message: 'Message sent successfully' });
   } catch (error) {
@@ -136,5 +148,6 @@ module.exports = {
   getProjectCountByTech,
   getProjectCountByComplexity,
   getProjectTimeline,
+  getTimeSpentOnProjects,
   contactForm
 };

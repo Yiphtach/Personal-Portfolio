@@ -4,22 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <title>Dashboard</title>
+
+  <!-- Load Header -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch('../frontend/components/header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('header-container').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading header:', error));
+    });
+  </script>
 </head>
+
 <body>
   <!-- Header -->
   <div id="header-container"></div>
-<script>
-  fetch('../frontend/components/header.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('header-container').innerHTML = data;
-    })
-    .catch(error => console.error('Error loading header:', error));
-</script>
-
-
 
   <!-- Main Content -->
   <main class="dashboard-container">
@@ -29,21 +31,29 @@
     
     <!-- Dashboard Sections -->
     <div class="dashboard-charts">
+      
       <!-- Chart for project count by technology -->
-      <section class="chart-section">
+      <section class="chart-section" aria-label="Projects by Technology">
         <h2>Projects by Technology</h2>
-        <canvas id="projectCountChart"></canvas>
+        <canvas id="projectCountChart" aria-label="Project count by technology chart"></canvas>
       </section>
       
       <!-- Chart for complexity breakdown -->
-      <section class="chart-section">
+      <section class="chart-section" aria-label="Project Complexity Breakdown">
         <h2>Project Complexity Breakdown</h2>
-        <canvas id="complexityChart"></canvas>
+        <canvas id="complexityChart" aria-label="Project complexity breakdown chart"></canvas>
+      </section>
+      
+      <!-- Chart for time spent on projects -->
+      <section class="chart-section" aria-label="Time Spent on Projects">
+        <h2>Time Spent on Projects</h2>
+        <canvas id="timeChart" aria-label="Time spent on projects chart"></canvas>
       </section>
     </div>
   </main>
 
-  <!-- Dashboard Script -->
+  <!-- External Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="../frontend/dashboard.js"></script>
 </body>
 </html>
