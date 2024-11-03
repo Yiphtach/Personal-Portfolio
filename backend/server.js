@@ -27,11 +27,24 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use('/api/projects', projectRoutes);
 
 // Serve static files from the frontend directory
-app.use(express.static('frontend'));
+app.use(express.static(path.join(__dirname, '../frontend')));
+app.use(express.static(path.join(__dirname, '../')));
+app.use('/frontend', express.static(path.join(__dirname, '../frontend')));
 
 // Serve the main HTML page (index.html) at the root route
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../index.html'));
+});
+
+app.get('/views/:page', (req, res) => {
+  const page = req.params.page;
+  res.sendFile(path.join(__dirname, `../views/${page}.html`));
+});
+
+// Route to serve individual HTML files from the views directory
+app.get('/:page', (req, res) => {
+  const page = req.params.page;
+  res.sendFile(path.join(__dirname, `../views/${page}.html`));
 });
 
 // Fallback route for 404 errors
