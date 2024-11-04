@@ -3,11 +3,11 @@ async function fetchProjects() {
   // Get filter and sort options from the UI
   const techFilter = document.getElementById('tech-filter').value;
   const complexityFilter = document.getElementById('complexity-filter').value;
-  const sortOption = document.getElementById('sort-filter').value;
+  const sortOption = document.getElementById('sort-options').value; // Updated to match ID in HTML
 
   try {
     // Construct the query string based on filter and sort options
-    let query = `/api/projects?`;
+    let query = '/api/projects?';
     if (techFilter && techFilter !== 'all') query += `tech=${encodeURIComponent(techFilter)}&`;
     if (complexityFilter && complexityFilter !== 'all') query += `complexity=${encodeURIComponent(complexityFilter)}&`;
     if (sortOption) query += `sort=${encodeURIComponent(sortOption)}`;
@@ -55,7 +55,7 @@ function renderProjects(projects) {
 // Event listeners for filtering and sorting
 document.getElementById('tech-filter').addEventListener('change', fetchProjects);
 document.getElementById('complexity-filter').addEventListener('change', fetchProjects);
-document.getElementById('sort-filter').addEventListener('change', fetchProjects);
+document.getElementById('sort-options').addEventListener('change', fetchProjects); // Updated to match ID in HTML
 
 // Initial fetch to display projects when the page loads
 fetchProjects();

@@ -9,16 +9,14 @@
 <body> 
   <!-- Header Component -->
   <div id="header-container"></div>
-<script>
-  fetch('../frontend/components/header.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('header-container').innerHTML = data;
-    })
-    .catch(error => console.error('Error loading header:', error));
-</script>
-
-
+  <script>
+    fetch('../frontend/components/header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-container').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
 
   <!-- Main Content -->
   <main class="projects-main">
@@ -29,7 +27,7 @@
     <!-- Filter and Sorting Options -->
     <div id="filter-options" class="filter-options">
       <label for="tech-filter">Filter by Technology:</label>
-      <select id="tech-filter">
+      <select id="tech-filter" aria-label="Filter by Technology">
         <option value="all">All</option>
         <option value="JavaScript">JavaScript</option>
         <option value="Python">Python</option>
@@ -37,7 +35,7 @@
       </select>
 
       <label for="complexity-filter">Complexity:</label>
-      <select id="complexity-filter">
+      <select id="complexity-filter" aria-label="Filter by Complexity">
         <option value="all">All</option>
         <option value="Low">Low</option>
         <option value="Medium">Medium</option>
@@ -45,7 +43,7 @@
       </select>
 
       <label for="sort-options">Sort by:</label>
-      <select id="sort-options">
+      <select id="sort-options" aria-label="Sort projects">
         <option value="date">Date</option>
         <option value="complexity">Complexity</option>
         <!-- Add more sorting options as needed -->
@@ -56,12 +54,6 @@
     <section id="projects-container" class="project-container">
       <!-- Project cards will be dynamically loaded here -->
     </section>
-  </main>
-
-    <!-- Project List -->
-    <div id="project-list" class="project-container">
-      <!-- Project cards will be dynamically added here by JavaScript -->
-    </div>
   </main>
 
   <!-- JavaScript for Dynamic Loading and Filtering -->

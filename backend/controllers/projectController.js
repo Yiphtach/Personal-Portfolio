@@ -1,6 +1,7 @@
 const Project = require('../models/Project');
 
 // Create a new project
+// This function saves a new project to the database.
 async function createProject(req, res) {
   try {
     const project = new Project(req.body);
@@ -12,14 +13,20 @@ async function createProject(req, res) {
 }
 
 // Get all projects with optional filtering and sorting
+// This function returns projects, allowing optional filters by technology and complexity and sorting by date or complexity.
 async function getProjects(req, res) {
   const { tech, complexity, sort } = req.query;
   
+  // Define filters for technology and complexity
   let filter = {};
   if (tech && tech !== 'all') {
     filter.technologies = tech;
   }
+  if (complexity && complexity !== 'all') {
+    filter.complexity = complexity;
+  }
 
+  // Define sorting options
   let sortOption = {};
   if (sort === 'date') {
     sortOption = { createdAt: -1 }; // Descending order by date
@@ -36,6 +43,7 @@ async function getProjects(req, res) {
 }
 
 // Get a specific project by ID
+// This function retrieves a single project by its ID.
 async function getProjectById(req, res) {
   try {
     const project = await Project.findById(req.params.id);
@@ -50,6 +58,7 @@ async function getProjectById(req, res) {
 }
 
 // Update an existing project by ID
+// This function updates a project with the specified ID.
 async function updateProject(req, res) {
   const { id } = req.params;
   try {
@@ -64,6 +73,7 @@ async function updateProject(req, res) {
 }
 
 // Delete a project by ID
+// This function deletes a project by its ID.
 async function deleteProject(req, res) {
   const { id } = req.params;
   try {
@@ -78,6 +88,7 @@ async function deleteProject(req, res) {
 }
 
 // Get project count by technology (for dashboard)
+// This function returns the count of projects grouped by technology.
 async function getProjectCountByTech(req, res) {
   try {
     const techData = await Project.aggregate([
@@ -91,6 +102,7 @@ async function getProjectCountByTech(req, res) {
 }
 
 // Get project count by complexity (for dashboard)
+// This function returns the count of projects grouped by complexity.
 async function getProjectCountByComplexity(req, res) {
   try {
     const complexityData = await Project.aggregate([
@@ -103,6 +115,7 @@ async function getProjectCountByComplexity(req, res) {
 }
 
 // Get project timeline data (for dashboard)
+// This function returns the count of projects created per month.
 async function getProjectTimeline(req, res) {
   try {
     const timelineData = await Project.aggregate([
@@ -116,6 +129,7 @@ async function getProjectTimeline(req, res) {
 }
 
 // Get time spent on projects
+// This function calculates the total time spent on each project.
 async function getTimeSpentOnProjects(req, res) {
   try {
     const timeData = await Project.aggregate([
@@ -128,6 +142,7 @@ async function getTimeSpentOnProjects(req, res) {
 }
 
 // Handle contact form submission
+// This function processes contact form submissions.
 async function contactForm(req, res) {
   const { name, email, message } = req.body;
   try {
