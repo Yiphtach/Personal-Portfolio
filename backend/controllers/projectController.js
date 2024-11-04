@@ -1,4 +1,5 @@
 const Project = require('../models/Project');
+const axios = require('axios');
 
 // Create a new project
 // This function saves a new project to the database.
@@ -153,6 +154,35 @@ async function contactForm(req, res) {
     res.status(500).json({ error: 'Failed to process contact form' });
   }
 }
+
+exports.getGitHubProjects = async (req, res) => {
+  try {
+    const username = process.env.GITHUB_USERNAME || 'Yiphtach';
+    const url = `https://api.github.com/users/${Yiphtach}/repos`;
+
+    // Fetch public repositories from GitHub
+    const response = await axios.get(url);
+
+    // Extract useful data from GitHub response
+    const projects = response.data.map(repo => ({
+      title: repo.name,
+      description: repo.description,
+      url: repo.html_url,
+      languages_url: repo.languages_url,
+    }));
+
+    // Optionally, fetch languages for each project
+    for (const project of projects) {
+      const languages = await axios.get(project.languages_url);
+      project.technologies = Object.keys(languages.data); // GitHub returns languages as keys
+    }
+
+    res.json(projects);
+  } catch (error) {
+    console.error("Error fetching GitHub projects:", error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
   createProject,

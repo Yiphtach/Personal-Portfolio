@@ -4,37 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project Details</title>
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <!-- Header -->
-  <div id="header-container"></div>
-<script>
-  fetch('../frontend/components/header.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('header-container').innerHTML = data;
-    })
-    .catch(error => console.error('Error loading header:', error));
-</script>
+  <!-- Header Component -->
+  <div id="header"></div>
+  <script>
+    // Fetch and insert the header component
+    fetch('../frontend/components/header.html').then(res => res.text()).then(html => {
+      document.getElementById('header').innerHTML = html;
+    });
+  </script>
 
+  <!-- Main Content for Project Details -->
+  <main id="project-details">
+    <h1 id="project-title">Loading...</h1>
+    <p id="project-description">Loading project details...</p>
+    
+    <div class="project-meta">
+      <h3>Technologies Used:</h3>
+      <p id="project-technologies">Loading...</p>
 
-
-  <!-- Main Content -->
-  <main class="project-details-container">
-    <header class="project-header">
-      <h1 id="project-title">Project Title</h1>
-    </header>
-    <section id="project-details">
-      <p id="project-description">Project description will load here.</p>
-      <p><strong>Technologies:</strong> <span id="project-technologies"></span></p>
-      <p><strong>Timeline:</strong> <span id="project-timeline"></span></p>
-      <p><strong>Complexity:</strong> <span id="project-complexity"></span></p>
-      <p><strong>Date Created:</strong> <span id="project-date"></span></p>
-    </section>
+      <p><strong>Timeline:</strong> <span id="project-timeline">Loading...</span></p>
+      <p><strong>Complexity:</strong> <span id="project-complexity">Loading...</span></p>
+      <p><strong>Created On:</strong> <span id="project-date">Loading...</span></p>
+    </div>
   </main>
 
-  <!-- JavaScript for Fetching Project Data -->
+  <div>
+    <button onclick="history.back()">Go Back</button>
+  </div>
+</main>
+
   <script src="../frontend/project.js"></script>
 </body>
 </html>

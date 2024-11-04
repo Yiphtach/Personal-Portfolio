@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css">
+  <title>Create New Project</title>
+</head>
+<body>
+  <!-- Header Component -->
+  <div id="header-container"></div>
+  <script>
+    fetch('../frontend/components/header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-container').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
+
+  <!-- New Project Form -->
+  <main class="projects-main">
+    <header class="project-header">
+      <h1>Create New Project</h1>
+    </header>
+    
+    <form id="new-project-form">
+      <label for="title">Project Title:</label>
+      <input type="text" id="title" name="title" required>
+
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" required></textarea>
+
+      <label for="technologies">Technologies (comma-separated):</label>
+      <input type="text" id="technologies" name="technologies" required>
+
+      <label for="timeline">Timeline:</label>
+      <input type="text" id="timeline" name="timeline" required>
+
+      <label for="complexity">Complexity:</label>
+      <select id="complexity" name="complexity" required>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+
+      <button type="submit">Create Project</button>
+    </form>
+    
+    <div id="response-message"></div> <!-- Display response here -->
+  </main>
+
+  <!-- JavaScript for Submitting the Form -->
+  <script src="../frontend/createProject.js"></script>
+</body>
+</html>

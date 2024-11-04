@@ -6,7 +6,7 @@ const path = require('path');
 require('dotenv').config();
 
 // Import routes
-const projectRoutes = require('./routes/projectRoutes');
+const projectRoutes = require('./backend/routes/projectRoutes');
 
 // Initialize Express app
 const app = express();
@@ -25,26 +25,32 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // API Routes
 app.use('/api/projects', projectRoutes);
+app.use('/projects', projectRoutes);
 
-// Serve static files from the frontend directory
-app.use(express.static(path.join(__dirname, '../frontend')));
-app.use(express.static(path.join(__dirname, '../')));
-app.use('/frontend', express.static(path.join(__dirname, '../frontend')));
+// Serve static files from the frontend and root directories
+app.use('/frontend', express.static(path.join(__dirname, 'frontend')));
+app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'views')));
 
 // Serve the main HTML page (index.html) at the root route
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Route to serve HTML files from the views directory
 app.get('/views/:page', (req, res) => {
   const page = req.params.page;
-  res.sendFile(path.join(__dirname, `../views/${page}.html`));
+  res.sendFile(path.join(__dirname, `views/${page}.html`));
 });
 
-// Route to serve individual HTML files from the views directory
-app.get('/:page', (req, res) => {
-  const page = req.params.page;
-  res.sendFile(path.join(__dirname, `../views/${page}.html`));
+// Route to serve the dashboard HTML page
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views/dashboard.html'));
+});
+
+// Route to serve the projects HTML page
+app.get('/projects', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views/projects.html'));
 });
 
 // Fallback route for 404 errors

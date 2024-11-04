@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="/style.css">
   <title>Projects</title>
 </head>
 <body> 
@@ -28,15 +28,17 @@
     <div id="filter-options" class="filter-options">
       <label for="tech-filter">Filter by Technology:</label>
       <select id="tech-filter" aria-label="Filter by Technology">
-        <option value="all">All</option>
+        <option value="all">All Technologies</option>
         <option value="JavaScript">JavaScript</option>
+        <option value="React">React</option>
+        <option value="Node.js">Node.js</option>
         <option value="Python">Python</option>
         <!-- Add other technologies as needed -->
       </select>
 
       <label for="complexity-filter">Complexity:</label>
       <select id="complexity-filter" aria-label="Filter by Complexity">
-        <option value="all">All</option>
+        <option value="all">All Complexities</option>
         <option value="Low">Low</option>
         <option value="Medium">Medium</option>
         <option value="High">High</option>
@@ -45,9 +47,11 @@
       <label for="sort-options">Sort by:</label>
       <select id="sort-options" aria-label="Sort projects">
         <option value="date">Date</option>
+        <option value="time">Sort by Time</option>
         <option value="complexity">Complexity</option>
         <!-- Add more sorting options as needed -->
       </select>
+      <button onclick="fetchProjects()">Apply Filters</button>
     </div>
 
     <!-- Project Cards Grid -->
@@ -55,6 +59,9 @@
       <!-- Project cards will be dynamically loaded here -->
     </section>
   </main>
+  
+  <button onclick="fetchGitHubProjects()">View GitHub Projects</button>
+  <main id="project-list"></main>
 
   <!-- JavaScript for Dynamic Loading and Filtering -->
   <script src="../frontend/app.js"></script>

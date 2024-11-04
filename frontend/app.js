@@ -1,3 +1,14 @@
+async function fetchGitHubProjects() {
+  try {
+    const response = await fetch('http://localhost:3000/projects/github');
+    const projects = await response.json();
+    displayProjects(projects); // Reuse display function for consistent UI
+  } catch (error) {
+    console.error('Error fetching GitHub projects:', error);
+  }
+}
+
+
 // Fetch and display projects with optional filtering and sorting
 async function fetchProjects() {
   // Get filter and sort options from the UI
@@ -39,6 +50,7 @@ function renderProjects(projects) {
   projects.forEach(project => {
     const projectCard = document.createElement('div');
     projectCard.className = 'project-card';
+    projectCard.classList.add('project-card');
     
     projectCard.innerHTML = `
       <h3>${project.title}</h3>
